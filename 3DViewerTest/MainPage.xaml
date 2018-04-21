@@ -1,0 +1,21 @@
+﻿<Page
+    x:Class="_3DViewerTest.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:_3DViewerTest"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:lib="using:Lib"
+    mc:Ignorable="d">
+
+    <Grid Background="Pink">
+        <lib:Object3D x:Name="Element" Height="200" Width="200" Source="duck.glb"></lib:Object3D>
+        <!--<lib:Object3D Height="200" Width="200" x:Name="Element" Source="https://models.babylonjs.com/ufo.glb"></lib:Object3D>-->
+
+        <StackPanel VerticalAlignment="Bottom">
+            <Slider Minimum="0" Maximum="180.5" Value="{x:Bind Element.AlphaInDegrees, Mode=TwoWay}" />
+            <Slider Minimum="0" Maximum="180.5" Value="{x:Bind Element.BetaInDegrees, Mode=TwoWay}" />
+            <Slider Minimum="1" Maximum="20.5" Value="{x:Bind Element.CameraRadius, Mode=TwoWay}" />
+        </StackPanel>
+    </Grid>
+</Page>
