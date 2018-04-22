@@ -9,10 +9,8 @@
         var rootUri = null;
         var fileName = null;
 
-        var cameraAlpha = 0;
+        var cameraAlpha = Math.PI;
         var cameraBeta = 0;
-        var cameraRadius = 3;
-
 
         function setupSource(root, name) {
             rootUri = root;
@@ -23,10 +21,9 @@
             }
         }
 
-        function updateCameraPositionValues(alpha, beta, radius) {
+        function updateCameraPositionValues(alpha, beta) {
             cameraAlpha = alpha;
             cameraBeta = beta;
-            cameraRadius = radius;
 
             if (setCameraPosition) {
                 setCameraPosition();
@@ -68,8 +65,15 @@
         var scene = new BABYLON.Scene(engine);
         scene.clearColor = new BABYLON.Color4(0, 0, 0, 0);
 
-        var camera = new BABYLON.ArcRotateCamera("camera", cameraAlpha, cameraBeta, cameraRadius, new BABYLON.Vector3(0, 0, 0), scene);
+        var camera = new BABYLON.ArcRotateCamera("camera", cameraAlpha, cameraBeta, 1, new BABYLON.Vector3(0, 0, 0), scene);
+
+        // glTF assets use a +Z forward convention while the default camera faces +Z. Rotate the camera to look at the front of the asset.
         camera.minZ = 0;
+        camera.useFramingBehavior = true;
+
+        var framingBehavior = camera.getBehaviorByName("Framing");
+        framingBehavior.framingTime = 0;
+        framingBehavior.elevationReturnTime = -1;
         
         scene.createDefaultEnvironment(
         {
@@ -87,16 +91,25 @@
 
                 container = await BABYLON.SceneLoader.LoadAssetContainerAsync(rootUri, fileName, scene);
                 container.addAllToScene();
+
+                setCameraFraming();
+
                 window.external.notify("ready");
             }
         }
 
         function setCameraPosition() {
             if (camera) {
-                //camera.setPosition(new BABYLON.Vector3(cameraAlpha, cameraBeta, cameraRadius));
                 camera.alpha = cameraAlpha;
                 camera.beta = cameraBeta;
-                camera.radius = cameraRadius;
+            }
+        }
+
+        function setCameraFraming() {
+            if (scene.meshes.length) {
+                var worldExtends = scene.getWorldExtends();
+                scene.activeCamera.lowerRadiusLimit = null;
+                framingBehavior.zoomOnBoundingInfo(worldExtends.min, worldExtends.max);
             }
         }
 
@@ -106,6 +119,7 @@
 
         window.addEventListener("resize", function () {
             engine.resize();
+            setCameraFraming();
         });
 
 

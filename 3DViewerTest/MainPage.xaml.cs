@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -22,14 +23,31 @@ namespace _3DViewerTest
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        List<string> Assets = new List<string>();
+        int CurrentAsset = 0;
+
         public MainPage()
         {
             this.InitializeComponent();
+            Assets.Add("poop.glb");
+            Assets.Add("duck.glb");
+            Assets.Add("https://models.babylonjs.com/ufo.glb");
         }
 
-        //private void Button_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Element.Source = Text.Text;
-        //}
+        private void Element_AssetLoading(object sender, EventArgs e)
+        {
+            Debug.WriteLine("Loading");
+        }
+
+        private void Element_AssetLoaded(object sender, EventArgs e)
+        {
+            Debug.WriteLine("Loaded");
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentAsset = (CurrentAsset + 1) % Assets.Count;
+            Element.Source = Assets[CurrentAsset];
+        }
     }
 }

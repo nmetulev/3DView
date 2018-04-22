@@ -12,8 +12,7 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
-                            <WebView x:Name="View" DefaultBackgroundColor="Transparent"></WebView>
-                            <ProgressRing x:Name="LoadingRing" Visibility="Collapsed" IsActive="False" />
+                            <WebView x:Name="View" DefaultBackgroundColor="Transparent" Opacity="0"></WebView>
                         </Grid>
                         
                     </Border>

@@ -9,13 +9,13 @@
     mc:Ignorable="d">
 
     <Grid Background="Pink">
-        <lib:Object3D x:Name="Element" Height="200" Width="200" Source="duck.glb"></lib:Object3D>
-        <!--<lib:Object3D Height="200" Width="200" x:Name="Element" Source="https://models.babylonjs.com/ufo.glb"></lib:Object3D>-->
+        <lib:Object3D x:Name="Element" Height="400" Width="400" Source="poop.glb" AssetLoading="Element_AssetLoading" AssetLoaded="Element_AssetLoaded" ></lib:Object3D>
+
+        <Button Click="Button_Click">Next</Button>
 
         <StackPanel VerticalAlignment="Bottom">
             <Slider Minimum="0" Maximum="180.5" Value="{x:Bind Element.AlphaInDegrees, Mode=TwoWay}" />
             <Slider Minimum="0" Maximum="180.5" Value="{x:Bind Element.BetaInDegrees, Mode=TwoWay}" />
-            <Slider Minimum="1" Maximum="20.5" Value="{x:Bind Element.CameraRadius, Mode=TwoWay}" />
         </StackPanel>
     </Grid>
 </Page>
